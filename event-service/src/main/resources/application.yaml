@@ -1,0 +1,18 @@
+server:
+  port: 8081
+spring:
+    datasource:
+      driver-class-name:
+      url:
+      username:
+      password:
+    jpa:
+      show-sql: true
+      properties:
+        hibernate:
+          dialect:
+          default_schema:
+          temp:
+            use_jdbc_metadata_defaults: false
+    flyway:
+      baseline-on-migrate: true

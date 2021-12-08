@@ -1,7 +1,3 @@
-# Directories
-.idea/
-target/
-
 # https://github.com/github/gitignore/blob/main/Global/JetBrains.gitignore
 
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio, WebStorm and Rider

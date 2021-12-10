@@ -76,7 +76,7 @@ public class TelegramBotMain extends TelegramLongPollingBot {
 
                     sendMessage.setChatId(chat_id);
                     sendMessage.setText(sendMessage(pathTxtFiles.subscriptionMessage()));
-                    sendMessage.setText("GeekBrains");;
+                    sendMessage.setText("GeekBrains");
                     sendMessage.setReplyMarkup(keyboardMarkup);
 
                     execute(sendMessage);
@@ -151,7 +151,7 @@ public class TelegramBotMain extends TelegramLongPollingBot {
         while ((line = fileReader.read()) != -1) {
             sb.append((char) line);
         }
-
+        fileReader.close();
         return String.valueOf(sb);
     }
 

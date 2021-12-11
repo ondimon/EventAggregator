@@ -24,6 +24,7 @@
 .idea/**/dynamic.xml
 .idea/**/uiDesigner.xml
 .idea/**/dbnavigator.xml
+.idea/**/dataSources.xml
 
 # Gradle
 .idea/**/gradle.xml
@@ -100,3 +101,13 @@ fabric.properties
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 replay_pid*
+
+# Maven
+*/**/target
+
+#H2 db
+*/**/*.mv.db
+
+#dev profil config
+*/**/*-dev.yaml
+*/**/*-local.yaml

@@ -6,6 +6,8 @@ import ru.gb.eventservice.domain.Event;
 import ru.gb.eventservice.exception.EventNotFoundException;
 import ru.gb.eventservice.repository.EventRepository;
 
+import java.util.List;
+
 @Service
 public class EventServiceImpl implements EventService{
 
@@ -25,5 +27,10 @@ public class EventServiceImpl implements EventService{
     @Override
     public Event saveOrUpdate(Event event) {
         return null;
+    }
+
+    @Override
+    public List<Event> getAll() {
+        return eventRepository.findAll();
     }
 }

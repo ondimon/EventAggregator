@@ -12,6 +12,7 @@ import ru.gb.telegrambot.settings.SettingsKeyBord;
 
 import java.io.File;
 import java.io.FileReader;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -147,7 +148,6 @@ public class TelegramBotMain extends TelegramLongPollingBot {
         int line;
         FileReader fileReader = new FileReader(fileMessage);
         StringBuilder sb = new StringBuilder();
-
         while ((line = fileReader.read()) != -1) {
             sb.append((char) line);
         }

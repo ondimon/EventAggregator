@@ -147,7 +147,6 @@ public class TelegramBotMain extends TelegramLongPollingBot {
         int line;
         FileReader fileReader = new FileReader(fileMessage);
         StringBuilder sb = new StringBuilder();
-
         while ((line = fileReader.read()) != -1) {
             sb.append((char) line);
         }

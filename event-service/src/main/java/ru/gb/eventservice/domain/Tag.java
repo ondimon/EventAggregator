@@ -6,9 +6,10 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Entity
-@Table(name = "events_tag")
+@Table(name = "tags")
 @Data
 @NoArgsConstructor
 public class Tag {
@@ -17,17 +18,17 @@ public class Tag {
     private Long id;
 
     @JsonIgnore
-    @ManyToOne
-    @JoinColumn(name = "id_event")
-    @NotNull
-    private Event event;
+    @ManyToMany
+    @JoinTable(name = "events_tag",
+            joinColumns = @JoinColumn(name = "id_tag"),
+            inverseJoinColumns = @JoinColumn(name = "id_event"))
+    private List<Event> events;
 
     @Column(name = "name")
     @NotNull
     private String name;
 
-    public Tag(Event event, String name) {
-        this.event = event;
-        this.name = name;
+    public Tag(String tag) {
+        name = tag;
     }
 }

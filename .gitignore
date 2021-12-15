@@ -108,6 +108,7 @@ replay_pid*
 #H2 db
 */**/*.mv.db
 */**/*.lock.db
+*/**/*.trace.db
 
 #dev profil config
 */**/*-dev.yaml

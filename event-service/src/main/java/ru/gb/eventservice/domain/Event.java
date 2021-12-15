@@ -34,13 +34,19 @@ public class Event {
     @Column(name = "date_end")
     private LocalDateTime dateEnd;
 
-    @OneToMany(mappedBy = "event",cascade = CascadeType.ALL)
+    @ManyToMany
+    @JoinTable(name = "events_tag",
+            joinColumns = @JoinColumn(name = "id_event"),
+            inverseJoinColumns = @JoinColumn(name = "id_tag"))
     private List<Tag> tags;
 
-    public void addTag(String tag) {
+    public void addTag(Tag tag) {
         if (tags == null) {
             tags = new ArrayList<>();
         }
-        tags.add(new Tag(this, tag));
+        tags.add(tag);
+    }
+    public void addTag(String tag) {
+        addTag(new Tag(tag));
     }
 }

@@ -3,7 +3,9 @@ package ru.gb.eventservice.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.gb.eventservice.domain.Event;
+import ru.gb.eventservice.domain.Tag;
 import ru.gb.eventservice.dto.EventDto;
 import ru.gb.eventservice.exception.EventNotFoundException;
 import ru.gb.eventservice.mapper.EventMapper;
@@ -15,10 +17,22 @@ import java.util.List;
 public class EventServiceImpl implements EventService{
 
     private EventRepository eventRepository;
+    private EventMapper eventMapper;
+    protected TagService tagService;
+
+    @Autowired
+    public void setTagService(TagService tagService) {
+        this.tagService = tagService;
+    }
 
     @Autowired
     public void setEventRepository(EventRepository eventRepository) {
         this.eventRepository = eventRepository;
+    }
+
+    @Autowired
+    public void setEventMapper(EventMapper eventMapper) {
+        this.eventMapper = eventMapper;
     }
 
     @Override
@@ -30,14 +44,14 @@ public class EventServiceImpl implements EventService{
     public List<EventDto> findAllDto(Specification<Event> specification) {
         List<EventDto> result = new ArrayList<>();
         List<Event> events = eventRepository.findAll(specification);
-        events.forEach(event -> result.add(EventMapper.MAPPER.fromEvent(event)));
+        events.forEach(event -> result.add(eventMapper.fromEvent(event)));
         return result;
     }
 
     @Override
     public EventDto findByIdDto(Long id) throws EventNotFoundException {
         Event event = findById(id);
-        return EventMapper.MAPPER.fromEvent(event);
+        return eventMapper.fromEvent(event);
     }
 
     @Override
@@ -52,8 +66,19 @@ public class EventServiceImpl implements EventService{
     }
 
     @Override
+    @Transactional
     public Event saveOrUpdate(EventDto eventDto) {
-        return saveOrUpdate(EventMapper.MAPPER.fromEventDto(eventDto));
+        Event event = eventMapper.fromEventDto(eventDto);
+        List<Tag> tags = event.getTags();
+        if (tags != null) {
+            for (Tag tag: tags) {
+                if(tag.getId() != null) {
+                    continue;
+                }
+                tag.setId(tagService.saveOrUpdate(tag).getId());
+            }
+        }
+        return saveOrUpdate(event);
     }
 
 }

@@ -1,8 +1,6 @@
-<p>Events component</p>
+<div class="container">
 
-<div>
-
-  <div *ngFor="let event of events">
+  <div *ngFor="let event of events" class="card">
     <p>{{ event.name }}</p>
     <p>{{ event.description }}</p>
     <p>{{ event.link }}</p>

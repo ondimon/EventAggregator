@@ -1,1 +1,167 @@
-/* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  font-size: 1rem;
+  line-height: 1.6;
+  //background-color: #F1F1F2; первый вариант
+  //background-color: #D6D6D6; тёмный вариант
+  //background-color: #F1F1F2; насыщенный вариант
+  background: rgb(255,255,255);
+  background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(241,241,242,1) 65%, rgba(157,157,157,1) 100%);
+  color: #333;
+}
+
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+a {
+  text-decoration: none;
+}
+
+a:hover {
+  color: #666;
+}
+
+ul {
+  list-style: none;
+}
+
+img {
+  width: 100%;
+}
+
+.btn {
+  display: inline-block;
+  //background: #1995AD; первый вариант
+  //background: #168391; тёмный вариант
+  //background: #0997AA; насыщенный вариант
+  background: rgb(255,255,255);
+  background: linear-gradient(135deg, rgba(255,255,255,1) 0%, rgba(9,151,170,1) 35%, rgba(9,151,170,1) 100%);
+  //color: #F1F1F2; первый вариант
+  //color: #D6D6D6; тёмный вариант
+  color: #F1F1F2;
+  padding: 0.4rem 1.3rem;
+  font-size: 1rem;
+  border: none;
+  cursor: pointer;
+  margin-right: 0.5rem;
+  transition: opacity 0.2s ease-in;
+  outline: none;
+
+  &:disabled {
+    background: #ccc;
+    color: #000;
+    cursor: not-allowed;
+  }
+
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+.btn.btn-danger {
+  background: #dc3545;
+  color: #fff;
+}
+
+.form-control {
+  display: block;
+  margin-top: 0.3rem;
+  margin-bottom: .5rem;
+
+  label {
+    display: block;
+    font-weight: bold;
+    font-size: 1rem;
+    margin-bottom: .5rem;
+  }
+
+  input {
+    margin-bottom: 0;
+  }
+
+  .validation {
+    color: red;
+  }
+}
+
+.card {
+  padding: 1rem;
+  border: #ccc 1px dotted;
+  margin: 0.7rem 0;
+  //background: #A1D6E2; первый вариант
+  //background: #8FBEC6; тёмный вариант
+  //background: #8CD4E0; насыщенный вариант
+  background: rgb(204,231,236);
+  background: linear-gradient(90deg, rgba(204,231,236,1) 0%, rgba(140,212,224,1) 35%, rgba(50,174,195,1) 100%);
+
+  p {
+    display: flex;
+    justify-content: space-between;
+
+    span.completed {
+      text-decoration: line-through;
+    }
+  }
+}
+
+a {
+  text-decoration: none;
+  color: #333;
+}
+
+input,
+select,
+textarea {
+  display: block;
+  width: 100%;
+  padding: 0.4rem;
+  font-size: 1.2rem;
+  border: 1px solid #ccc;
+  margin-bottom: 1rem;
+}
+
+hr {
+  margin: .5rem 0;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.7rem 2rem;
+  z-index: 1;
+  width: 100%;
+  opacity: 0.9;
+  margin-bottom: 1rem;
+  //background: #BCBABE; первый вариант
+  //background: #A2A2A3; тёмный вариант
+  background: #BCBABE;
+  color: black;
+
+  ul {
+    display: flex;
+
+    li.active a {
+      font-weight: bold;
+      color: #333333;
+      cursor: default;
+    }
+  }
+
+  a {
+    color: #fff;
+    padding: 0.45rem;
+    margin: 0 0.25rem;
+  }
+}

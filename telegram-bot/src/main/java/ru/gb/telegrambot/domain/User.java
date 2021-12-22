@@ -22,9 +22,10 @@ public class User {
     private Long telegram_id;
 
 
-//    @Column(name = "date_registration")
-//    private String date_registration;
-//    @Column(name = "site_id")
-//    private Long site_id;
+    @Column(name = "date_registration")
+    private String date_registration;
+
+    @Column(name = "site_id")
+    private Long site_id;
 
 }

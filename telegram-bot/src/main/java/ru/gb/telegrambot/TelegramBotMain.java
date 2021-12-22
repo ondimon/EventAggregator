@@ -57,18 +57,18 @@ public class TelegramBotMain extends TelegramLongPollingBot {
             SendMessage sendMessage = new SendMessage();
 
             String message_text = update.getMessage().getText();
-            Long chat_id = update.getMessage().getChatId();
+            Long chatId = update.getMessage().getChatId();
 
             switch (message_text) {
                 case "/start":
                 case "/back":
                 case "Назад": {
-                    startMessage(sendMessage, chat_id);
+                    startMessage(sendMessage, chatId);
                     break;
                 }
                 case "/help": {
 
-                    helpMessage(sendMessage, String.valueOf(chat_id));
+                    helpMessage(sendMessage, String.valueOf(chatId));
                     break;
                 }
                 case "Каналы": {
@@ -85,7 +85,7 @@ public class TelegramBotMain extends TelegramLongPollingBot {
                     keyboard.add(row);
                     keyboardMarkup.setKeyboard(keyboard);
 
-                    sendMessage.setChatId(String.valueOf(chat_id));
+                    sendMessage.setChatId(String.valueOf(chatId));
                     sendMessage.setText(sendMessage(pathTxtFiles.subscriptionMessage()));
                     sendMessage.setText("GeekBrains");
                     sendMessage.setReplyMarkup(keyboardMarkup);
@@ -96,18 +96,18 @@ public class TelegramBotMain extends TelegramLongPollingBot {
                 }
                 case "Подписаться": {
                     User user = new User();
-                    user.setTelegram_id(chat_id);
+                    user.setTelegram_id(chatId);
                     user.setId(1L);
 
                      userService.saveUser(user);
 
 
-                    startMessage(sendMessage, chat_id);
+                    startMessage(sendMessage, chatId);
                     break;
                 }
                 default:
                     execute(SendMessage.builder()
-                            .chatId(String.valueOf(chat_id))
+                            .chatId(String.valueOf(chatId))
                             .text(update.getMessage().getText())
                             .build());
 

@@ -19,13 +19,13 @@ public class User {
     private Long id;
 
     @Column(name = "telegram_id")
-    private Long telegram_id;
+    private Long telegramId;
 
 
     @Column(name = "date_registration")
-    private String date_registration;
+    private String dateRegistration;
 
     @Column(name = "site_id")
-    private Long site_id;
+    private Long siteId;
 
 }

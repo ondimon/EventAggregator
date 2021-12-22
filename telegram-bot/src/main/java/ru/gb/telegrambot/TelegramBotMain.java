@@ -96,7 +96,7 @@ public class TelegramBotMain extends TelegramLongPollingBot {
                 }
                 case "Подписаться": {
                     User user = new User();
-                    user.setTelegram_id(chatId);
+                    user.setTelegramId(chatId);
                     user.setId(1L);
 
                      userService.saveUser(user);
@@ -119,7 +119,7 @@ public class TelegramBotMain extends TelegramLongPollingBot {
     }
 
 
-    private void helpMessage(SendMessage sendMessage, String chat_id) throws TelegramApiException {
+    private void helpMessage(SendMessage sendMessage, String chatId) throws TelegramApiException {
         ReplyKeyboardMarkup keyboardMarkup = new ReplyKeyboardMarkup();
         List<KeyboardRow> keyboard = new ArrayList<>();
         KeyboardRow row = new KeyboardRow();
@@ -132,13 +132,13 @@ public class TelegramBotMain extends TelegramLongPollingBot {
 
         keyboardMarkup.setKeyboard(keyboard);
 
-        sendMessage.setChatId(chat_id);
+        sendMessage.setChatId(chatId);
         sendMessage.setText(sendMessage(pathTxtFiles.helpMessage()));
         sendMessage.setReplyMarkup(keyboardMarkup);
         execute(sendMessage);
     }
 
-    public void startMessage(SendMessage sendMessage, Long chat_id) throws TelegramApiException {
+    public void startMessage(SendMessage sendMessage, Long chatId) throws TelegramApiException {
         ReplyKeyboardMarkup keyboardMarkup = new ReplyKeyboardMarkup();
         List<KeyboardRow> keyboard = new ArrayList<>();
         KeyboardRow row = new KeyboardRow();
@@ -151,7 +151,7 @@ public class TelegramBotMain extends TelegramLongPollingBot {
         keyboard.add(row);
         keyboardMarkup.setKeyboard(keyboard);
 
-        sendMessage.setChatId(String.valueOf(chat_id));
+        sendMessage.setChatId(String.valueOf(chatId));
         sendMessage.setText(sendMessage(pathTxtFiles.startMessage()));
         sendMessage.setReplyMarkup(keyboardMarkup);
         execute(sendMessage);

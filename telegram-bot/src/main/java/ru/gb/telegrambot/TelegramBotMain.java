@@ -1,15 +1,21 @@
 package ru.gb.telegrambot;
 
 import lombok.*;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+import ru.gb.telegrambot.domain.User;
 import ru.gb.telegrambot.paths.PathTxtFiles;
+import ru.gb.telegrambot.service.UserService;
 import ru.gb.telegrambot.settings.SettingsKeyBord;
 
+import javax.annotation.PostConstruct;
 import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
@@ -17,27 +23,32 @@ import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
+@Slf4j
+@Component
 @NoArgsConstructor
 public class TelegramBotMain extends TelegramLongPollingBot {
+    private UserService userService = new UserService();
     private final PathTxtFiles pathTxtFiles = new PathTxtFiles();
     private final SettingsKeyBord settingsKeyBord = new SettingsKeyBord();
 
-    String webHookPath;
-    String botUserName;
-    String botToken;
+    @Autowired
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
 
     @Override
     public String getBotUsername() {
         return "@Geek_Brainsbot";
     }
 
+
     @Override
     public String getBotToken() {
         return "5023935402:AAEzmYqCDp0xHPvfGRjIUx2rHeUOBFvqfIM";
     }
 
-
     @SneakyThrows
+    @PostConstruct
     @Override
     public void onUpdateReceived(Update update) {
 
@@ -46,7 +57,7 @@ public class TelegramBotMain extends TelegramLongPollingBot {
             SendMessage sendMessage = new SendMessage();
 
             String message_text = update.getMessage().getText();
-            String chat_id = String.valueOf(update.getMessage().getChatId());
+            Long chat_id = update.getMessage().getChatId();
 
             switch (message_text) {
                 case "/start":
@@ -57,7 +68,7 @@ public class TelegramBotMain extends TelegramLongPollingBot {
                 }
                 case "/help": {
 
-                    helpMessage(sendMessage, chat_id);
+                    helpMessage(sendMessage, String.valueOf(chat_id));
                     break;
                 }
                 case "Каналы": {
@@ -74,7 +85,7 @@ public class TelegramBotMain extends TelegramLongPollingBot {
                     keyboard.add(row);
                     keyboardMarkup.setKeyboard(keyboard);
 
-                    sendMessage.setChatId(chat_id);
+                    sendMessage.setChatId(String.valueOf(chat_id));
                     sendMessage.setText(sendMessage(pathTxtFiles.subscriptionMessage()));
                     sendMessage.setText("GeekBrains");
                     sendMessage.setReplyMarkup(keyboardMarkup);
@@ -84,25 +95,29 @@ public class TelegramBotMain extends TelegramLongPollingBot {
                     break;
                 }
                 case "Подписаться": {
+                    User user = new User();
+                    user.setTelegram_id(chat_id);
+                    user.setId(1L);
 
-                    execute(SendMessage.builder()
-                            .chatId(chat_id)
-                            .text("Вы подписались")
-                            .build());
+                     userService.saveUser(user);
+
+
                     startMessage(sendMessage, chat_id);
                     break;
                 }
                 default:
                     execute(SendMessage.builder()
-                            .chatId(chat_id)
+                            .chatId(String.valueOf(chat_id))
                             .text(update.getMessage().getText())
                             .build());
+
                     break;
             }
 
 
         }
     }
+
 
     private void helpMessage(SendMessage sendMessage, String chat_id) throws TelegramApiException {
         ReplyKeyboardMarkup keyboardMarkup = new ReplyKeyboardMarkup();
@@ -123,7 +138,7 @@ public class TelegramBotMain extends TelegramLongPollingBot {
         execute(sendMessage);
     }
 
-    public void startMessage(SendMessage sendMessage, String chat_id) throws TelegramApiException {
+    public void startMessage(SendMessage sendMessage, Long chat_id) throws TelegramApiException {
         ReplyKeyboardMarkup keyboardMarkup = new ReplyKeyboardMarkup();
         List<KeyboardRow> keyboard = new ArrayList<>();
         KeyboardRow row = new KeyboardRow();
@@ -136,7 +151,7 @@ public class TelegramBotMain extends TelegramLongPollingBot {
         keyboard.add(row);
         keyboardMarkup.setKeyboard(keyboard);
 
-        sendMessage.setChatId(chat_id);
+        sendMessage.setChatId(String.valueOf(chat_id));
         sendMessage.setText(sendMessage(pathTxtFiles.startMessage()));
         sendMessage.setReplyMarkup(keyboardMarkup);
         execute(sendMessage);

@@ -21,7 +21,6 @@ public class User {
     @Column(name = "telegram_id")
     private Long telegramId;
 
-
     @Column(name = "date_registration")
     private String dateRegistration;
 

@@ -1,6 +1,8 @@
 package ru.gb.telegrambot;
 
-import lombok.*;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -15,26 +17,23 @@ import ru.gb.telegrambot.paths.PathTxtFiles;
 import ru.gb.telegrambot.service.UserService;
 import ru.gb.telegrambot.settings.SettingsKeyBord;
 
-import javax.annotation.PostConstruct;
 import java.io.File;
 import java.io.FileReader;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-@EqualsAndHashCode(callSuper = true)
-@Data
+
 @Slf4j
 @Component
-@NoArgsConstructor
-public class TelegramBotMain extends TelegramLongPollingBot {
-    private UserService userService = new UserService();
-    private final PathTxtFiles pathTxtFiles = new PathTxtFiles();
-    private final SettingsKeyBord settingsKeyBord = new SettingsKeyBord();
+@RequiredArgsConstructor
+public class Bot extends TelegramLongPollingBot  implements Serializable {
 
     @Autowired
-    public void setUserService(UserService userService) {
-        this.userService = userService;
-    }
+    private UserService userService;
+
+    private final PathTxtFiles pathTxtFiles = new PathTxtFiles();
+    private final SettingsKeyBord settingsKeyBord = new SettingsKeyBord();
 
     @Override
     public String getBotUsername() {
@@ -48,7 +47,6 @@ public class TelegramBotMain extends TelegramLongPollingBot {
     }
 
     @SneakyThrows
-    @PostConstruct
     @Override
     public void onUpdateReceived(Update update) {
 
@@ -97,19 +95,18 @@ public class TelegramBotMain extends TelegramLongPollingBot {
                 case "Подписаться": {
                     User user = new User();
                     user.setTelegramId(chatId);
-                    user.setId(1L);
 
-                     userService.saveUser(user);
+                    userService.saveUser(user);
 
 
                     startMessage(sendMessage, chatId);
                     break;
                 }
                 default:
-                    execute(SendMessage.builder()
-                            .chatId(String.valueOf(chatId))
-                            .text(update.getMessage().getText())
-                            .build());
+
+                    execute(new SendMessage().setChatId(update.getMessage().getChatId())
+                            .setText("Hi!"));
+
 
                     break;
             }

@@ -1,0 +1,11 @@
+spring:
+  main:
+    allow-circular-references: true
+  jpa:
+    database: POSTGRESQL
+    show-sql: true
+  datasource:
+    url: jdbc:postgresql://localhost:5432/Telegram-bot
+    username: postgres
+    password: pikyli228
+    driverClassName: org.postgresql.Driver

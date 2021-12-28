@@ -3,6 +3,6 @@ export interface IEvent {
   name: string,
   description: string,
   link: string,
-  date_start: Date,
-  date_end: Date
+  dateStart: Date,
+  dateEnd: Date
 }

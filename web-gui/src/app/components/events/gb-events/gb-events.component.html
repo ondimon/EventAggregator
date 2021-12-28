@@ -1,0 +1,11 @@
+<div class="container">
+
+  <div *ngFor="let event of events" class="card">
+    <p>{{ event.name }}</p>
+    <p>{{ event.description }}</p>
+    <p><a href ="{{ event.link }}" target="_blank">Ссылка</a></p>
+    <p>{{ event.dateStart }}</p>
+    <p>{{ event.dateEnd }}</p>
+  </div>
+
+</div>

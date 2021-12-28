@@ -7,13 +7,19 @@ import { MenuComponent } from './components/menu/menu.component';
 import { EventsComponent } from './components/events/events.component';
 import { MainComponent } from './components/main/main.component';
 import {HttpClientModule} from "@angular/common/http";
+import { GbEventsComponent } from './components/events/gb-events/gb-events.component';
+import { SbEventsComponent } from './components/events/sb-events/sb-events.component';
+import { YandexEventsComponent } from './components/events/yandex-events/yandex-events.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     MenuComponent,
     EventsComponent,
-    MainComponent
+    MainComponent,
+    GbEventsComponent,
+    SbEventsComponent,
+    YandexEventsComponent
   ],
   imports: [
     BrowserModule,

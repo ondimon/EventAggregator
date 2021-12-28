@@ -1,10 +1,10 @@
 package ru.gb.telegrambot;
 
-import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -13,37 +13,51 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMar
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import ru.gb.telegrambot.domain.User;
-import ru.gb.telegrambot.paths.PathTxtFiles;
 import ru.gb.telegrambot.service.UserService;
 import ru.gb.telegrambot.settings.SettingsKeyBord;
 
 import java.io.File;
 import java.io.FileReader;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class Bot extends TelegramLongPollingBot  implements Serializable {
+public class Bot extends TelegramLongPollingBot implements Serializable {
 
     @Autowired
     private UserService userService;
 
-    private final PathTxtFiles pathTxtFiles = new PathTxtFiles();
     private final SettingsKeyBord settingsKeyBord = new SettingsKeyBord();
+
+    @Value("${file.startMessage}")
+    private String startMessage;
+
+    @Value("${file.helpMessage}")
+    private String helpMessage;
+
+    @Value("${file.subscriptionMessage}")
+    private String subscriptionMessage;
+
+    @Value("${bot.name}")
+    private String botUsername;
+
+    @Value("${bot.token}")
+    private String botToken;
 
     @Override
     public String getBotUsername() {
-        return "@Geek_Brainsbot";
+        return botUsername;
     }
-
 
     @Override
     public String getBotToken() {
-        return "5023935402:AAEzmYqCDp0xHPvfGRjIUx2rHeUOBFvqfIM";
+        return botToken;
     }
 
     @SneakyThrows
@@ -71,30 +85,19 @@ public class Bot extends TelegramLongPollingBot  implements Serializable {
                 }
                 case "Каналы": {
 
-                    ReplyKeyboardMarkup keyboardMarkup = new ReplyKeyboardMarkup();
-                    List<KeyboardRow> keyboard = new ArrayList<>();
-                    KeyboardRow row = new KeyboardRow();
-
-                    settingsKeyBord.keyBoardMarkupSettings(keyboardMarkup);
-
-                    row.add("Подписаться");
-                    row.add("Назад");
-
-                    keyboard.add(row);
-                    keyboardMarkup.setKeyboard(keyboard);
-
-                    sendMessage.setChatId(String.valueOf(chatId));
-                    sendMessage.setText(sendMessage(pathTxtFiles.subscriptionMessage()));
-                    sendMessage.setText("GeekBrains");
-                    sendMessage.setReplyMarkup(keyboardMarkup);
-
-                    execute(sendMessage);
+                    resourcesChannels(sendMessage, chatId);
 
                     break;
                 }
                 case "Подписаться": {
+                    String timeStamp = new SimpleDateFormat("yyyy-MM-dd")
+                            .format(Calendar.getInstance().getTime());
                     User user = new User();
+
                     user.setTelegramId(chatId);
+                    user.setDateRegistration(timeStamp);
+                    user.setUserName( update.getMessage().getChat().getFirstName());
+
 
                     userService.saveUser(user);
 
@@ -104,15 +107,36 @@ public class Bot extends TelegramLongPollingBot  implements Serializable {
                 }
                 default:
 
+
                     execute(new SendMessage().setChatId(update.getMessage().getChatId())
                             .setText("Hi!"));
-
 
                     break;
             }
 
 
         }
+    }
+
+    private void resourcesChannels(SendMessage sendMessage, Long chatId) throws TelegramApiException {
+        ReplyKeyboardMarkup keyboardMarkup = new ReplyKeyboardMarkup();
+        List<KeyboardRow> keyboard = new ArrayList<>();
+        KeyboardRow row = new KeyboardRow();
+
+        settingsKeyBord.keyBoardMarkupSettings(keyboardMarkup);
+
+        row.add("Подписаться");
+        row.add("Назад");
+
+        keyboard.add(row);
+        keyboardMarkup.setKeyboard(keyboard);
+
+        sendMessage.setChatId(String.valueOf(chatId));
+        sendMessage.setText(sendMessage(new File(subscriptionMessage)));
+        sendMessage.setText("GeekBrains");
+        sendMessage.setReplyMarkup(keyboardMarkup);
+
+        execute(sendMessage);
     }
 
 
@@ -130,7 +154,7 @@ public class Bot extends TelegramLongPollingBot  implements Serializable {
         keyboardMarkup.setKeyboard(keyboard);
 
         sendMessage.setChatId(chatId);
-        sendMessage.setText(sendMessage(pathTxtFiles.helpMessage()));
+        sendMessage.setText(sendMessage(new File(helpMessage)));
         sendMessage.setReplyMarkup(keyboardMarkup);
         execute(sendMessage);
     }
@@ -149,14 +173,14 @@ public class Bot extends TelegramLongPollingBot  implements Serializable {
         keyboardMarkup.setKeyboard(keyboard);
 
         sendMessage.setChatId(String.valueOf(chatId));
-        sendMessage.setText(sendMessage(pathTxtFiles.startMessage()));
+        sendMessage.setText(sendMessage(new File(startMessage)));
         sendMessage.setReplyMarkup(keyboardMarkup);
         execute(sendMessage);
     }
 
     @SneakyThrows
-    public @NonNull String sendMessage(File fileMessage) {
-        int line;
+    public String sendMessage(File fileMessage) {
+        long line;
         FileReader fileReader = new FileReader(fileMessage);
         StringBuilder sb = new StringBuilder();
         while ((line = fileReader.read()) != -1) {

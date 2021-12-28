@@ -1,0 +1,21 @@
+file:
+  startMessage: telegram-bot\src\main\resources\messages\start\startMessage.txt
+  helpMessage: telegram-bot\src\main\resources\messages\help\helpMessage.txt
+  subscriptionMessage: telegram-bot\src\main\resources\messages\subscription\subscriptionMessage.txt
+
+bot:
+    name: BeginnerProgrammersParadiseBot
+    token: 5051812619:AAFtS62sKnztMAD44iOsLASA2LgGEk9fkh0
+
+spring:
+  main:
+    allow-circular-references: true
+  jpa:
+    database: POSTGRESQL
+    show-sql: true
+  datasource:
+    url: jdbc:postgresql://localhost:5432/Telegram-bot
+    username: postgres
+    password: pikyli228
+    driverClassName: org.postgresql.Driver
+

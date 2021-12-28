@@ -25,15 +25,4 @@ public class UserService  {
     }
 
 
-//    @Override
-//    @Transactional
-//    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-//        User user = (User) findByUsername(username).orElseThrow(() -> new UsernameNotFoundException(String.format("User '%s' not found", username)));
-//        return new org.springframework.security.core.userdetails.User(user.getId(),user.getTelegramId()));
-//    }
-//
-//    private Optional<Object> findByUsername(String username) {
-//        return userRepo.findBy(username);
-//    }
-
 }

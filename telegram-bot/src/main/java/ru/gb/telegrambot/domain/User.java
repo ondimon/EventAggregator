@@ -27,4 +27,7 @@ public class User {
     @Column(name = "site_id")
     private Long siteId;
 
+    @Column(name = "user_name")
+    private String userName;
+
 }

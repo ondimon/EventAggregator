@@ -6,10 +6,10 @@
     </h1>
 
     <ul>
-      <li class="btn"><a href="/">Все события</a></li>
-      <li class="btn"><a href="/gb">События GeekBrains</a></li>
-      <li class="btn"><a href="/sb">События SkillBox</a></li>
-      <li class="btn"><a href="/yandex">События Yandex</a></li>
+      <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="btn"><a [routerLink]="['/']">Все события</a></li>
+      <li routerLinkActive="active" class="btn"><a [routerLink]="['/gb']">События GeekBrains</a></li>
+      <li routerLinkActive="active" class="btn"><a [routerLink]="['/sb']">События SkillBox</a></li>
+      <li routerLinkActive="active" class="btn"><a [routerLink]="['/yandex']">События Yandex</a></li>
     </ul>
 
   </div>

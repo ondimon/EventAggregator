@@ -64,6 +64,14 @@
               "extractLicenses": false,
               "sourceMap": true,
               "namedChunks": true
+            },
+            "docker": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.docker.ts"
+                }
+              ]
             }
           },
           "defaultConfiguration": "production"
@@ -76,6 +84,9 @@
             },
             "development": {
               "browserTarget": "web-gui:build:development"
+            },
+            "docker": {
+              "browserTarget": "web-gui:build:docker"
             }
           },
           "defaultConfiguration": "development"

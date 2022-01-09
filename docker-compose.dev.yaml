@@ -1,0 +1,35 @@
+version: '3.8'
+services:
+  web-gui:
+    build:
+      context: ./web-gui
+      target: dev
+    ports:
+      - "8080:4200"
+    depends_on:
+      - "event-service"
+  event-service:
+    build:
+      context: .
+      target: dev_service
+    ports:
+      - "8081:8081"
+    environment:
+      - MYSQL_HOST=mysql-event-service
+      - MYSQL_USER=eventservice
+      - MYSQL_PASS=eventservice
+      - WAITFORIT_HOST=mysql-event-service
+      - WAITFORIT_PORT=3306
+      - SERVICE_NAME="event-service"
+    depends_on:
+      - "mysql-event-service"
+  mysql-event-service:
+    image: mysql:8.0.23
+    ports:
+     - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=
+      - MYSQL_ALLOW_EMPTY_PASSWORD=true
+      - MYSQL_USER=eventservice
+      - MYSQL_PASSWORD=eventservice
+      - MYSQL_DATABASE=eventservice

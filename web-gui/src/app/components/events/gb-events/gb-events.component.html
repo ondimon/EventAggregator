@@ -4,8 +4,8 @@
     <p>{{ event.name }}</p>
     <p>{{ event.description }}</p>
     <p><a href ="{{ event.link }}" target="_blank">Ссылка</a></p>
-    <p>{{ event.dateStart }}</p>
-    <p>{{ event.dateEnd }}</p>
+    <p>Дата начала: {{ event.dateStart | date: 'dd.MM.yyyy' }}, время: {{ event.dateStart | date: 'HH:mm' }}</p>
+    <p>Дата окончания: {{ event.dateEnd | date: 'dd.MM.yyyy' }}, время: {{ event.dateEnd | date: 'HH:mm' }}</p>
   </div>
 
 </div>

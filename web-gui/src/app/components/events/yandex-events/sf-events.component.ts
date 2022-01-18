@@ -3,14 +3,14 @@ import {IEvent} from "../../../model/IEvent";
 import {HttpService} from "../../../services/http.service";
 
 /**
- * Компонент отображения списка событий портала Yandex
+ * Компонент отображения списка событий портала SkillFactory
  */
 @Component({
-  selector: 'app-yandex-events',
-  templateUrl: './yandex-events.component.html',
-  styleUrls: ['./yandex-events.component.scss']
+  selector: 'app-sf-events',
+  templateUrl: './sf-events.component.html',
+  styleUrls: ['./sf-events.component.scss']
 })
-export class YandexEventsComponent implements OnInit {
+export class SfEventsComponent implements OnInit {
 
   /**
    * Список событий
@@ -30,7 +30,7 @@ export class YandexEventsComponent implements OnInit {
    */
   ngOnInit(): void {
     this.httpService.getAllEvents().subscribe(result => {
-      this.events = result.filter(item => item.link.startsWith('https://yandex.ru/'));
+      this.events = result.filter(item => item.link.startsWith('https://live.skillfactory.ru/'));
     });
   }
 }

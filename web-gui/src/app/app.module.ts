@@ -9,7 +9,7 @@ import { MainComponent } from './components/main/main.component';
 import {HttpClientModule} from "@angular/common/http";
 import { GbEventsComponent } from './components/events/gb-events/gb-events.component';
 import { SbEventsComponent } from './components/events/sb-events/sb-events.component';
-import { YandexEventsComponent } from './components/events/yandex-events/yandex-events.component';
+import { SfEventsComponent } from './components/events/yandex-events/sf-events.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +19,7 @@ import { YandexEventsComponent } from './components/events/yandex-events/yandex-
     MainComponent,
     GbEventsComponent,
     SbEventsComponent,
-    YandexEventsComponent
+    SfEventsComponent
   ],
   imports: [
     BrowserModule,

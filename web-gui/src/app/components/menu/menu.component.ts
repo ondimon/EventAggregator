@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {MenuService} from "../../services/menu.service";
 
 /**
  * Компонент отображения меню приложения
@@ -10,9 +11,26 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MenuComponent implements OnInit {
 
-  constructor() { }
+  /**
+   * Путь к файлу логотипа меню
+   */
+  logo: string = "";
 
-  ngOnInit(): void {
+  /**
+   * Конструктор
+   *
+   * @param menuService Сервис смены логотипа меню
+   */
+  constructor(private menuService: MenuService) {
   }
 
+  /**
+   * Инициализация компонента, подписка на изменение
+   * пути к файлу логотипа в меню
+   */
+  ngOnInit(): void {
+    this.menuService.logo$.subscribe(result => {
+      this.logo = result;
+    })
+  }
 }

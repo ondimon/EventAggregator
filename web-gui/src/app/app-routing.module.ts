@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import {EventsComponent} from "./components/events/events.component";
 import {GbEventsComponent} from "./components/events/gb-events/gb-events.component";
 import {SbEventsComponent} from "./components/events/sb-events/sb-events.component";
-import {SfEventsComponent} from "./components/events/yandex-events/sf-events.component";
+import {SfEventsComponent} from "./components/events/sf-events/sf-events.component";
 
 /**
  * Список роутов

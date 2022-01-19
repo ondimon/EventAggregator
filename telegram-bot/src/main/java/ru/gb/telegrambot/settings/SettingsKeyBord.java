@@ -1,6 +1,5 @@
 package ru.gb.telegrambot.settings;
 
-import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 
 public class SettingsKeyBord {

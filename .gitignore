@@ -111,5 +111,4 @@ replay_pid*
 */**/*.trace.db
 
 #dev profil config
-*/**/*-dev.yaml
 */**/*-local.yaml

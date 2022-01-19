@@ -10,15 +10,15 @@ import javax.persistence.*;
 //@Entity
 @Getter
 @Setter
-@Table(name = "usr")
+@Table(name = "users")
 @Entity
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "telegram_id")
+    @Column(name = "chat_id")
     private Long telegramId;
 
     @Column(name = "date_registration")

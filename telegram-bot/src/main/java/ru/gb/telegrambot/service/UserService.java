@@ -5,7 +5,7 @@ import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.gb.telegrambot.domain.User;
-import ru.gb.telegrambot.repos.UserRepository;
+import ru.gb.telegrambot.repository.UserRepository;
 
 @Getter
 @Setter

@@ -24,8 +24,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-
-@Slf4j
 @Component
 @RequiredArgsConstructor
 public class Bot extends TelegramLongPollingBot implements Serializable {
@@ -107,9 +105,9 @@ public class Bot extends TelegramLongPollingBot implements Serializable {
                 }
                 default:
 
-
-                    execute(new SendMessage().setChatId(update.getMessage().getChatId())
-                            .setText("Hi!"));
+                    sendMessage.setChatId(chatId.toString());
+                    sendMessage.setText("Я не сплю");
+                    execute(sendMessage);
 
                     break;
             }

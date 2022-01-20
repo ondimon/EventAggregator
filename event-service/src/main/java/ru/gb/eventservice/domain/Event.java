@@ -34,6 +34,9 @@ public class Event {
     @Column(name = "date_end")
     private LocalDateTime dateEnd;
 
+    @Column(name = "date_update")
+    private LocalDateTime dateUpdate;
+
     @ManyToMany
     @JoinTable(name = "events_tag",
             joinColumns = @JoinColumn(name = "id_event"),

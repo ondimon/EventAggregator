@@ -2,6 +2,7 @@
 <project version="4">
   <component name="SqlDialectMappings">
     <file url="file://$PROJECT_DIR$/event-service/src/main/resources/db/migration/V1__init.sql" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/event-service/src/main/resources/db/migration/V2__dateupdate.sql" dialect="MySQL" />
     <file url="file://$PROJECT_DIR$/event-service/src/test/resources/test_data_before.sql" dialect="H2" />
     <file url="file://$PROJECT_DIR$/parser-service/src/main/resources/db/migration/V1__init.sql" dialect="MySQL" />
     <file url="file://$PROJECT_DIR$/telegram-bot/src/main/resources/db/migration/V1__init.sql" dialect="MySQL" />

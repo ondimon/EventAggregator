@@ -13,6 +13,7 @@ import java.util.Map;
 public class EventFilter {
     private static final String KEY_FROM_DATE = "fromdate";
     private static final String KEY_TO_DATE = "todate";
+    private static final String KEY_FROM_UPDATE_DATE = "fromdateupdate";
 
     private Specification<Event> spec;
 
@@ -27,6 +28,10 @@ public class EventFilter {
             LocalDate date = LocalDate.parse(map.get(KEY_TO_DATE));
             LocalDateTime localDateTime = date.atTime(23, 59, 59);
             spec = spec.and(EventSpecification.dataLessOrEqualsThan("dateEnd", localDateTime));
+        }
+        if (map.containsKey(KEY_FROM_UPDATE_DATE) && !map.get(KEY_FROM_UPDATE_DATE).isEmpty()) {
+            LocalDateTime localDateTime = LocalDateTime.parse(map.get(KEY_FROM_UPDATE_DATE));
+            spec = spec.and(EventSpecification.dataGreaterOrEqualsThan("dateUpdate", localDateTime));
         }
     }
 

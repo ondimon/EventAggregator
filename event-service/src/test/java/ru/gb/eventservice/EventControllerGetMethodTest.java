@@ -86,6 +86,20 @@ class EventControllerGetMethodTest {
     }
 
     @Test
+    void shouldReturnZeroEventFilterFromDateUpdate() throws Exception {
+        mockMvc.perform(get("/events?fromdateupdate=2022-01-02T15:00:00"))
+                .andExpect(status().isOk())
+                .andExpect(content().json("[]"));
+    }
+    @Test
+    void shouldReturnTwoEventFilterFromDateUpdate() throws Exception {
+        mockMvc.perform(get("/events?fromdateupdate=2021-12-13T15:00:00"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.[0].name").value("test 1"))
+                .andExpect(jsonPath("$.[1].name").value("test 2"));
+    }
+
+    @Test
     void shouldReturnEventById() throws Exception {
         mockMvc.perform(get("/events/{id}", 1))
                 .andExpect(status().isOk())

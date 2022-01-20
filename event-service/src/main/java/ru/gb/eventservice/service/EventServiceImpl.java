@@ -10,6 +10,8 @@ import ru.gb.eventservice.dto.EventDto;
 import ru.gb.eventservice.exception.EventNotFoundException;
 import ru.gb.eventservice.mapper.EventMapper;
 import ru.gb.eventservice.repository.EventRepository;
+
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -62,6 +64,7 @@ public class EventServiceImpl implements EventService{
 
     @Override
     public Event saveOrUpdate(Event event) {
+        event.setDateUpdate(LocalDateTime.now());
         return eventRepository.save(event);
     }
 

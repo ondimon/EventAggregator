@@ -1,13 +1,11 @@
 package ru.gb.telegrambot.domain;
 
-
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
-
-//@Entity
 @Getter
 @Setter
 @Table(name = "users")
@@ -29,5 +27,8 @@ public class User {
 
     @Column(name = "user_name")
     private String userName;
+
+    @Column(name = "date_last_notification")
+    private LocalDateTime dateLastNotification;
 
 }

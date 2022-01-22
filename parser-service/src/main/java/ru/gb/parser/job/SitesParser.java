@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 import ru.gb.parser.domain.Event;
 import ru.gb.parser.domain.ParsedLink;
 import ru.gb.parser.factory.Parser;
+import ru.gb.parser.factory.ParserGeekBrains;
 import ru.gb.parser.factory.ParserSkillBox;
 import ru.gb.parser.factory.ParserSkillFactory;
 import ru.gb.parser.service.EventService;
@@ -33,7 +34,8 @@ public class SitesParser {
     @Scheduled(fixedDelay = 300000)
     public void parseSitesJob() throws IOException {
         Parser[] parsers = {new ParserSkillBox(),
-                            new ParserSkillFactory()};
+                            new ParserSkillFactory(),
+                            new ParserGeekBrains()};
         parseSites(parsers);
     }
 

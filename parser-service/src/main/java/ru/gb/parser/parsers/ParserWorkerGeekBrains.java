@@ -8,15 +8,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ParserWorkerSkillFactory extends ParserWorker {
+public class ParserWorkerGeekBrains extends ParserWorker {
 
-    private static final String LIST_EVENTS = "https://blog.skillfactory.ru";
-    private static final String BASE_URL = "https://blog.skillfactory.ru";
-    private static final String NAME_BLOCK_GENERAL = "div[class=swiper-wrapper]";
-    private static final String NAME_BLOCK_EVENT_ITEM = "div[class=swiper-slide]";
+    private static final String LIST_EVENTS = "https://gb.ru/events";
+    private static final String BASE_URL = "https://gb.ru/events";
+    private static final String NAME_BLOCK_GENERAL = "div[class=gb-future-events__items]";
+    private static final String NAME_BLOCK_EVENT_ITEM = "div[class=gb-event-card gb-future-events__item]";
     private static final String NAME_BLOCK_LINK = "a";
-    private static final String NAME_BLOCK_TITLE = "div[class=card-slider__title]";
-    private static final String NAME_BLOCK_DESCRIPTION = "div[class=card-slider__excerpt]";
+    private static final String NAME_BLOCK_TITLE = "a";
 
     @Override
     public List<Event> getEvents() throws IOException {
@@ -27,14 +26,12 @@ public class ParserWorkerSkillFactory extends ParserWorker {
         Elements webinarsItems = blockGeneral.select(NAME_BLOCK_EVENT_ITEM);
 
         for (Element webinarItem : webinarsItems) {
-            String title = webinarItem.select(NAME_BLOCK_TITLE).first().text();
-            String description = webinarItem.select(NAME_BLOCK_DESCRIPTION).first().text();
+            String title = webinarItem.select(NAME_BLOCK_TITLE).get(1).text();
             String url = String.format("%s%s",
                     BASE_URL,
                     webinarItem.select(NAME_BLOCK_LINK).first().attr(HREF_ATTR));
             Event event = new Event();
             event.setName(title);
-            event.setDescription(description);
             event.setLink(url);
             events.add(event);
         }

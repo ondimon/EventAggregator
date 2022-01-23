@@ -1,6 +1,7 @@
 package ru.gb.telegrambot.domain;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -8,6 +9,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
+@NoArgsConstructor
 @Table(name = "users")
 @Entity
 public class User {
@@ -17,10 +19,11 @@ public class User {
     private Long id;
 
     @Column(name = "chat_id")
+
     private Long telegramId;
 
     @Column(name = "date_registration")
-    private String dateRegistration;
+    private LocalDateTime dateRegistration;
 
     @Column(name = "site_id")
     private Long siteId;
@@ -31,4 +34,11 @@ public class User {
     @Column(name = "date_last_notification")
     private LocalDateTime dateLastNotification;
 
+    public User(Long telegramId) {
+        this.telegramId = telegramId;
+    }
+
+    public boolean isNew() {
+        return id == null;
+    }
 }

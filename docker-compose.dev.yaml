@@ -16,8 +16,6 @@ services:
       - "8081:8081"
     environment:
       - MYSQL_HOST=mysql-event-service
-      - MYSQL_USER=eventservice
-      - MYSQL_PASS=eventservice
       - WAITFORIT_HOST=mysql-event-service
       - WAITFORIT_PORT=3306
       - SERVICE_NAME="event-service"
@@ -25,11 +23,49 @@ services:
       - "mysql-event-service"
   mysql-event-service:
     image: mysql:8.0.23
-    ports:
-     - "3306:3306"
     environment:
       - MYSQL_ROOT_PASSWORD=
       - MYSQL_ALLOW_EMPTY_PASSWORD=true
-      - MYSQL_USER=eventservice
-      - MYSQL_PASSWORD=eventservice
       - MYSQL_DATABASE=eventservice
+  parser-service:
+    build:
+      context: .
+      target: dev_service
+    ports:
+      - "8082:8082"
+    environment:
+      - MYSQL_HOST=mysql-parser-service
+      - WAITFORIT_HOST=mysql-parser-service
+      - WAITFORIT_PORT=3306
+      - SERVICE_NAME="parser-service"
+      - EVENT_SERVICE_URL=event-service:8081
+    depends_on:
+      - "mysql-parser-service"
+      - "event-service"
+  mysql-parser-service:
+    image: mysql:8.0.23
+    environment:
+      - MYSQL_ROOT_PASSWORD=
+      - MYSQL_ALLOW_EMPTY_PASSWORD=true
+      - MYSQL_DATABASE=parseservice
+  bot-service:
+    build:
+      context: .
+      target: dev_service
+    environment:
+      - MYSQL_HOST=mysql-bot-service
+      - WAITFORIT_HOST=mysql-bot-service
+      - WAITFORIT_PORT=3306
+      - SERVICE_NAME="telegram-bot"
+      - TELEGRAMBOT_NAME=${TELEGRAMBOT_NAME}
+      - TELEGRAMBOT_TOKEN=${TELEGRAMBOT_TOKEN}
+      - EVENT_SERVICE_URL=event-service:8081
+    depends_on:
+      - "mysql-bot-service"
+      - "event-service"
+  mysql-bot-service:
+      image: mysql:8.0.23
+      environment:
+        - MYSQL_ROOT_PASSWORD=
+        - MYSQL_ALLOW_EMPTY_PASSWORD=true
+        - MYSQL_DATABASE=telegrambot

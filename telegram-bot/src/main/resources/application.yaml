@@ -6,7 +6,7 @@ spring:
     allow-circular-references: true
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://${MYSQL_HOST:localhost}:3306/eventservice
+    url: jdbc:mysql://${MYSQL_HOST:localhost}:3306/telegrambot
     username: ${MYSQL_USER:root}
     password: ${MYSQL_PASS:}
     jpa:
@@ -16,4 +16,6 @@ spring:
           dialect: org.hibernate.dialect.MySQL8Dialect
           temp:
             use_jdbc_metadata_defaults: false
+event-service:
+  url: ${EVENT_SERVICE_URL:localhost:8081}
 

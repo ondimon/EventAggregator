@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 
-@FeignClient(name = "EventServiceClient", url = "localhost:8081")
+@FeignClient(name = "EventService", url = "${event-service.url}")
 public interface EventServiceClient {
     @RequestMapping(method = RequestMethod.GET, value = "/events?fromdateupdate={dateUpdate}", consumes = MediaType.APPLICATION_JSON_VALUE)
     List<Event> getEventFromDateUpdate(@PathVariable("dateUpdate")  String dateUpdate);

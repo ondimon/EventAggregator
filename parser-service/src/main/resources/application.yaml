@@ -18,3 +18,5 @@ spring:
     feign:
       hystrix:
         enabled: true
+event-service:
+  url: ${EVENT_SERVICE_URL:localhost:8081}

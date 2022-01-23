@@ -92,6 +92,5 @@
         <module>telegram-bot</module>
         <module>event-service</module>
         <module>parser-service</module>
-        <module>front</module>
     </modules>
 </project>

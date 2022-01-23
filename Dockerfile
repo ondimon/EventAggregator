@@ -3,7 +3,6 @@
 FROM maven:3.8.4-jdk-11-slim AS base
 WORKDIR /app
 COPY event-service/pom.xml event-service/pom.xml
-COPY front/pom.xml front/pom.xml
 COPY parser-service/pom.xml parser-service/pom.xml
 COPY telegram-bot/pom.xml telegram-bot/pom.xml
 COPY pom.xml .
@@ -13,7 +12,6 @@ COPY wait-for-it.sh ./
 COPY entrypoint.sh ./
 
 COPY event-service/src event-service/src
-COPY front/src front/src
 COPY parser-service/src parser-service/src
 COPY telegram-bot/src telegram-bot/src
 

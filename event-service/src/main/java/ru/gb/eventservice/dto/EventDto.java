@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -19,7 +21,9 @@ public class EventDto {
     private String description;
     @NotBlank
     private String link;
+    @DateTimeFormat(pattern="yyyy-MM-dd'T'HH:mm")
     private LocalDateTime dateStart;
+    @DateTimeFormat(pattern="yyyy-MM-dd'T'HH:mm")
     private LocalDateTime dateEnd;
     private List<String> tags;
 

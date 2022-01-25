@@ -43,6 +43,8 @@ docker-compose -f docker-compose.dev.yaml up --build [ИмяСервиса]
 #### Доступные сервисы
  - event-service - api доступ к инфорации по мероприятиям и событям
  - web-gui - фронт
+ - parser-service - сервис парсера сайтов
+ - bot-service - сервис для работы с телеграмм ботом. Для запуска необходимо задать переменные среды TELEGRAMBOT_NAME, TELEGRAMBOT_TOKEN 
 #### Точки входа 
  - localhost:8081 - event-service
  - localhost:8080 - web-gui

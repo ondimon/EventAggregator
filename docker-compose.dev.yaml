@@ -69,3 +69,9 @@ services:
         - MYSQL_ROOT_PASSWORD=
         - MYSQL_ALLOW_EMPTY_PASSWORD=true
         - MYSQL_DATABASE=telegrambot
+  phpMyAdmin-service:
+    image: phpmyadmin:latest
+    ports:
+      - "9000:80"
+    environment:
+      - PMA_ARBITRARY=1

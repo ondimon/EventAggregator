@@ -2,12 +2,15 @@ package ru.gb.telegrambot;
 
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
+import org.telegram.telegrambots.meta.api.methods.AnswerCallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ru.gb.telegrambot.domain.User;
+import ru.gb.telegrambot.event.SendMessageEvent;
 import ru.gb.telegrambot.event.UpdateReceivedEvent;
 import ru.gb.telegrambot.orchestrator.HandlerOrchestrator;
 import ru.gb.telegrambot.service.UserService;
@@ -15,6 +18,7 @@ import ru.gb.telegrambot.service.UserService;
 @RequiredArgsConstructor
 @Component
 public class UpdateReceivedProcessor {
+    private final ApplicationEventPublisher publisher;
     private final HandlerOrchestrator orchestrator;
     private final UserService userService;
 
@@ -34,6 +38,8 @@ public class UpdateReceivedProcessor {
             userID = callbackQuery.getMessage().getChatId();
             text = callbackQuery.getData();
             userName = callbackQuery.getMessage().getChat().getFirstName();
+            AnswerCallbackQuery answerCallbackQuery = new AnswerCallbackQuery(callbackQuery.getId());
+            publisher.publishEvent(new SendMessageEvent<>(answerCallbackQuery));
         }
         if(userID != 0 && text != null) {
 

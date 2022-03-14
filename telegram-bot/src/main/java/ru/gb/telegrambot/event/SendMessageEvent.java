@@ -1,9 +1,12 @@
 package ru.gb.telegrambot.event;
 
-import org.springframework.context.ApplicationEvent;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 
-public class SendMessageEvent extends ApplicationEvent {
-    public SendMessageEvent(Object source) {
-        super(source);
-    }
+@RequiredArgsConstructor
+public class SendMessageEvent <T extends BotApiMethod>  {
+
+    @Getter
+    private final T source;
 }

@@ -14,7 +14,7 @@ public abstract class AbstractHandler {
     private ApplicationEventPublisher publisher;
 
     public final void sendMessage(SendMessage message) {
-        publisher.publishEvent(new SendMessageEvent(message));
+        publisher.publishEvent(new SendMessageEvent<>(message));
     }
 
     public abstract void handle(User user, String text);

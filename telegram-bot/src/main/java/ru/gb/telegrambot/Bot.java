@@ -38,6 +38,6 @@ public class Bot extends TelegramLongPollingBot {
     @SneakyThrows(TelegramApiException.class)
     @EventListener(classes = {SendMessageEvent.class})
     public void executeSafe(SendMessageEvent event) {
-        execute((SendMessage) event.getSource());
+        execute(event.getSource());
     }
 }

@@ -17,7 +17,7 @@
 
     <properties>
         <java.version>11</java.version>
-        <sonar.organization>andreypomelov</sonar.organization>
+        <sonar.organization>ondimon</sonar.organization>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
         <spring-cloud.version>2021.0.0</spring-cloud.version>
     </properties>

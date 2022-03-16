@@ -1,5 +1,6 @@
 package ru.gb.parser.job;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -17,6 +18,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Component
+@Slf4j
 public class SitesParser {
     ParsedLinksService parsedLinksService;
     EventService eventService;
@@ -32,16 +34,24 @@ public class SitesParser {
     }
 
     @Scheduled(fixedDelay = 300000)
-    public void parseSitesJob() throws IOException {
+    public void parseSitesJob()  {
         Parser[] parsers = {new ParserSkillBox(),
                             new ParserSkillFactory(),
                             new ParserGeekBrains()};
         parseSites(parsers);
     }
 
-    public void parseSites(Parser[] parsers) throws IOException {
+    public void parseSites(Parser[] parsers) {
         for (Parser parser: parsers) {
-            parseSite(parser);
+            String parserName = parser.getClass().getSimpleName();
+            log.info("Start parsing {}", parserName);
+            try{
+                parseSite(parser);
+            }catch (Exception e) {
+                log.error("parser {}: {}", parserName, e.getMessage());
+            }finally {
+                log.info("Stop parsing {}", parserName);
+            }
         }
     }
 

@@ -1,5 +1,6 @@
 package ru.gb.parser.parsers;
 
+import lombok.extern.slf4j.Slf4j;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -13,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+@Slf4j
 public class ParserWorkerSkillBox extends ParserWorker{
     private static final String LIST_EVENTS = "https://live.skillbox.ru";
     private static final String BASE_URL = "https://live.skillbox.ru";
@@ -45,7 +47,7 @@ public class ParserWorkerSkillBox extends ParserWorker{
                 event.setDateStart(docDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime());
                 event.setDateEnd(event.getDateStart());
             } catch (ParseException e) {
-                e.printStackTrace();
+                log.error("Error parsing date {}", date);
             }
 
         }

@@ -1,47 +1,41 @@
 package ru.gb.parser.job;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import ru.gb.parser.annotation.SiteParser;
 import ru.gb.parser.domain.Event;
 import ru.gb.parser.domain.ParsedLink;
 import ru.gb.parser.factory.Parser;
-import ru.gb.parser.factory.ParserGeekBrains;
-import ru.gb.parser.factory.ParserSkillBox;
-import ru.gb.parser.factory.ParserSkillFactory;
 import ru.gb.parser.service.EventService;
 import ru.gb.parser.service.ParsedLinksService;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 @Slf4j
+@RequiredArgsConstructor
 public class SitesParser {
-    ParsedLinksService parsedLinksService;
-    EventService eventService;
-
-    @Autowired
-    public void setEventService(EventService eventService) {
-       this.eventService = eventService;
-    }
-
-    @Autowired
-    public void setParsedLinksService(ParsedLinksService parsedLinksService) {
-        this.parsedLinksService = parsedLinksService;
-    }
+    private final ParsedLinksService parsedLinksService;
+    private final EventService eventService;
+    private final List<Parser> parsers;
 
     @Scheduled(fixedDelay = 300000)
     public void parseSitesJob()  {
-        Parser[] parsers = {new ParserSkillBox(),
-                            new ParserSkillFactory(),
-                            new ParserGeekBrains()};
-        parseSites(parsers);
+        parseSites(getParsers());
     }
 
-    public void parseSites(Parser[] parsers) {
+    public List<Parser> getParsers() {
+        return  parsers.stream().filter(
+                                        parser -> parser.getClass().isAnnotationPresent(SiteParser.class)
+                                    ).collect(Collectors.toList());
+    }
+
+    public void parseSites(List<Parser> parsers) {
         for (Parser parser: parsers) {
             String parserName = parser.getClass().getSimpleName();
             log.info("Start parsing {}", parserName);

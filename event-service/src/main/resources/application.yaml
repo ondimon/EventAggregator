@@ -1,6 +1,8 @@
 server:
   port: 8081
 spring:
+    application:
+      name: event-service
     datasource:
       driver-class-name: com.mysql.cj.jdbc.Driver
       url: jdbc:mysql://${MYSQL_HOST:localhost}:3306/eventservice
@@ -15,3 +17,9 @@ spring:
             use_jdbc_metadata_defaults: false
     flyway:
       baseline-on-migrate: true
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}
+  instance:
+    preferIpAddress: true

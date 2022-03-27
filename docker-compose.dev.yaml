@@ -8,6 +8,14 @@ services:
       - "8080:4200"
     depends_on:
       - "event-service"
+  registry-service:
+    build:
+      context: .
+      target: dev_service
+    ports:
+      - "9001:8761"
+    environment:
+      - SERVICE_NAME="registry-service"
   event-service:
     build:
       context: .
@@ -19,8 +27,10 @@ services:
       - WAITFORIT_HOST=mysql-event-service
       - WAITFORIT_PORT=3306
       - SERVICE_NAME="event-service"
+      - EUREKA_URI=http://registry-service:8761/eureka
     depends_on:
       - "mysql-event-service"
+      - "registry-service"
   mysql-event-service:
     image: mysql:8.0.23
     environment:
@@ -38,10 +48,11 @@ services:
       - WAITFORIT_HOST=mysql-parser-service
       - WAITFORIT_PORT=3306
       - SERVICE_NAME="parser-service"
-      - EVENT_SERVICE_URL=event-service:8081
+      - EUREKA_URI=http://registry-service:8761/eureka
     depends_on:
       - "mysql-parser-service"
       - "event-service"
+      - "registry-service"
   mysql-parser-service:
     image: mysql:8.0.23
     environment:
@@ -59,10 +70,11 @@ services:
       - SERVICE_NAME="telegram-bot"
       - TELEGRAMBOT_NAME=${TELEGRAMBOT_NAME}
       - TELEGRAMBOT_TOKEN=${TELEGRAMBOT_TOKEN}
-      - EVENT_SERVICE_URL=event-service:8081
+      - EUREKA_URI=http://registry-service:8761/eureka
     depends_on:
       - "mysql-bot-service"
       - "event-service"
+      - registry-service
   mysql-bot-service:
       image: mysql:8.0.23
       environment:

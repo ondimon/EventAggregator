@@ -5,6 +5,8 @@ WORKDIR /app
 COPY event-service/pom.xml event-service/pom.xml
 COPY parser-service/pom.xml parser-service/pom.xml
 COPY telegram-bot/pom.xml telegram-bot/pom.xml
+COPY registry-service/pom.xml registry-service/pom.xml
+
 COPY pom.xml .
 RUN mvn dependency:go-offline
 
@@ -14,6 +16,7 @@ COPY entrypoint.sh ./
 COPY event-service/src event-service/src
 COPY parser-service/src parser-service/src
 COPY telegram-bot/src telegram-bot/src
+COPY registry-service/src registry-service/src
 
 
 FROM base as dev_service

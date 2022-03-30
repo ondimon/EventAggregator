@@ -1,0 +1,116 @@
+version: '3.8'
+services:
+  registry-service:
+    image: ondimon/registry-service
+    restart: always
+    ports:
+      - "8761:8761"
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "10"
+  event-service:
+    image: ondimon/event-service
+    restart: always
+    ports:
+      - "8081:8081"
+    environment:
+      - MYSQL_HOST=mysql-event-service
+      - MYSQL_PASS=$MYSQL_PASS_EVENT_SERVICE
+      - EUREKA_URI=http://registry-service:8761/eureka
+    depends_on:
+      - "mysql-event-service"
+      - "registry-service"
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "10"
+  mysql-event-service:
+    image: mysql:8.0.23
+    restart: always
+    volumes:
+      - mysql-event-service-volume:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=$MYSQL_PASS_EVENT_SERVICE
+      - MYSQL_ALLOW_EMPTY_PASSWORD=false
+      - MYSQL_DATABASE=eventservice
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "10"
+  parser-service:
+    image: ondimon/parser-service
+    restart: always
+    ports:
+      - "8082:8082"
+    environment:
+      - MYSQL_HOST=mysql-parser-service
+      - MYSQL_PASS=$MYSQL_PASS_PARSER_SERVICE
+      - EUREKA_URI=http://registry-service:8761/eureka
+    depends_on:
+      - "mysql-parser-service"
+      - "event-service"
+      - "registry-service"
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "10"
+  mysql-parser-service:
+    image: mysql:8.0.23
+    restart: always
+    volumes:
+      - mysql-parser-service-volume:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=$MYSQL_PASS_PARSER_SERVICE
+      - MYSQL_ALLOW_EMPTY_PASSWORD=false
+      - MYSQL_DATABASE=parseservice
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "10"
+  bot-service:
+    image: ondimon/telegram-bot
+    restart: always
+    environment:
+      - MYSQL_HOST=mysql-bot-service
+      - MYSQL_PASS=$MYSQL_PASS_BOT_SERVICE
+      - TELEGRAMBOT_NAME=${TELEGRAMBOT_NAME}
+      - TELEGRAMBOT_TOKEN=${TELEGRAMBOT_TOKEN}
+      - EUREKA_URI=http://registry-service:8761/eureka
+    depends_on:
+      - "mysql-bot-service"
+      - "event-service"
+      - "registry-service"
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "10"
+  mysql-bot-service:
+      image: mysql:8.0.23
+      restart: always
+      volumes:
+        - mysql-bot-service-volume:/var/lib/mysql
+      environment:
+        - MYSQL_ROOT_PASSWORD=$MYSQL_PASS_BOT_SERVICE
+        - MYSQL_ALLOW_EMPTY_PASSWORD=false
+        - MYSQL_DATABASE=telegrambot
+      logging:
+        options:
+          max-size: "10m"
+          max-file: "10"
+  phpMyAdmin-service:
+    image: phpmyadmin:latest
+    restart: always
+    ports:
+      - "9000:80"
+    environment:
+      - PMA_ARBITRARY=1
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "10"
+
+volumes:
+  mysql-event-service-volume:
+  mysql-parser-service-volume:
+  mysql-bot-service-volume:

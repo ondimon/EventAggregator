@@ -25,7 +25,19 @@ ENTRYPOINT ["./entrypoint.sh"]
 FROM base as build
 RUN mvn clean package
 
-FROM openjdk:11-jre-slim as eventservice
+FROM openjdk:11-jre-slim as event-service
 EXPOSE 8081
 COPY --from=build /app/event-service/target/event-service-*.jar /event-service.jar
 CMD ["java", "-jar", "/event-service.jar"]
+
+FROM openjdk:11-jre-slim as parser-service
+COPY --from=build /app/parser-service/target/parser-service-*.jar /parser-service.jar
+CMD ["java", "-jar", "/parser-service.jar"]
+
+FROM openjdk:11-jre-slim as registry-service
+COPY --from=build /app/registry-service/target/registry-service-*.jar /registry-service.jar
+CMD ["java", "-jar", "/registry-service.jar"]
+
+FROM openjdk:11-jre-slim as telegram-bot
+COPY --from=build /app/telegram-bot/target/TelegramNotifierBot*.jar /telegram-bot.jar
+CMD ["java", "-jar", "/telegram-bot.jar"]
